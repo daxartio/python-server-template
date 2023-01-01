@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  {{cookiecutter.app_name}}:
+    build:
+      context: .
+      dockerfile: docker/{{cookiecutter.app_name}}/Dockerfile
+    volumes:
+      - .:/opt/base-project
+    depends_on:
+      - postgres
+    environment:
+      APP_DATABASE_URL: db:password@postgres/postgres
+
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_PASSWORD: 'password'
+      POSTGRES_USER: 'db'
+
+  pgcli:
+    build:
+      dockerfile: docker/pgcli/Dockerfile
+    depends_on:
+      - postgres
+    command:
+      - pgcli
+      - postgres://db:password@postgres/postgres
