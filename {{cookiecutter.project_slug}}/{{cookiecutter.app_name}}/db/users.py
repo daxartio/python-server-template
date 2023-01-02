@@ -1,12 +1,13 @@
-from {{cookiecutter.app_name}}.core.users import NewUser, User
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession
+
+from {{cookiecutter.app_name}}.core.users import NewUser, User
 
 from ._database import Base
 
 
 class DBUser(Base):
-    __tablename__ = "users"
+    __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     full_name = Column(String, nullable=False)

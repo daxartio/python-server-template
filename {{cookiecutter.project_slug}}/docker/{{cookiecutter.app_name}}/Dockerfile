@@ -2,6 +2,10 @@ FROM python:3.10-slim-buster
 
 WORKDIR /opt/base-project
 
+ENV PYTHONDONTWRITEBYTECODE=off
+ENV PYTHONFAULTHANDLER=on
+ENV PYTHONUNBUFFERED=on
+
 RUN pip install poetry==1.3.1 \
     && poetry config virtualenvs.create false
 
