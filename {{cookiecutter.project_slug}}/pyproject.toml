@@ -44,8 +44,8 @@ flake8-tidy-imports = "^4.8.0"
 git-changelog = "*"
 gitlint = "*"
 mypy = "*"
-pep8-naming = "*"{% if cookiecutter.task_runner == "poethepoet" %}
-poethepoet = "*"{% endif %}
+pep8-naming = "*"
+poethepoet = "*"
 pylint = "*"
 pytest = "*"
 pytest-asyncio = "*"
@@ -69,7 +69,7 @@ psycopg2-binary = "^2.9.5"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-{% if cookiecutter.task_runner == "poethepoet" %}
+
 [tool.poe.env]
 CODE = "tests {{ cookiecutter.app_name }}"
 
@@ -77,11 +77,6 @@ CODE = "tests {{ cookiecutter.app_name }}"
 help = "Run format lint test"
 sequence = ["format", "lint", "test"]
 default_item_type = "ref"
-
-[tool.poe.tasks.publish]
-help = "Publish package"
-cmd = "poetry publish --build --no-interaction --username=${pypi_username} --password=${pypi_password}"
-args = ["pypi_username", "pypi_password"]
 
 [tool.poe.tasks.test]
 help = "Test with coverage"
@@ -166,7 +161,7 @@ sequence = [
 [tool.poe.tasks.git-lint]
 help = "Check git commit"
 cmd = "gitlint"
-{% endif %}
+
 [tool.mypy]
 check_untyped_defs = true
 disallow_any_generics = true
@@ -237,6 +232,7 @@ select = [
     "W",
 ]
 ignore = [
+    "Q000",
     "D100",
     "D101",
     "D102",

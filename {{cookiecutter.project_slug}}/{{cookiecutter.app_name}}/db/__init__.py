@@ -1,4 +1,4 @@
 from ._database import Base
-from .users import User
+from .users import DBUser
 
-__all__ = ('Base', 'User')
+__all__ = ('Base', 'DBUser')
