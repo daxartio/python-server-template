@@ -19,10 +19,8 @@ services:
       POSTGRES_USER: 'db'
 
   pgcli:
-    build:
-      dockerfile: docker/pgcli/Dockerfile
+    image: daxart/pgcli:latest
     depends_on:
       - postgres
     command:
-      - pgcli
       - postgres://db:password@postgres/postgres

@@ -1,9 +1,8 @@
+from app.core.users import NewUser, User
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from {{cookiecutter.app_name}}.core.users import NewUser, User
-
-from ._database import Base
+from ._database import Base, session
 
 
 class DBUser(Base):
@@ -48,3 +47,6 @@ class UserRepository:
 
     async def delete(self, user_id: str) -> None:
         pass
+
+
+user_repository = UserRepository(session)
