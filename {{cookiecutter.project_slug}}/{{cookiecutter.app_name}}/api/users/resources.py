@@ -1,5 +1,7 @@
-from app.db.users import NewUser, user_repository
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
+
+from app.api.dependencies import get_service
+from app.core.users import NewUser, UserService
 
 router = APIRouter()
 
@@ -10,8 +12,8 @@ async def get_users():
 
 
 @router.post('/users')
-async def get_users():
-    user = await user_repository.create(
+async def get_users(user_service: UserService = Depends(get_service(UserService))):
+    user = await user_service.create(
         NewUser(
             full_name='danil',
             email='danil@example.com',

@@ -1,8 +1,9 @@
-from app.core.users import NewUser, User
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from ._database import Base, session
+from app.core.users import NewUser, User
+
+from .database import Base
 
 
 class DBUser(Base):
@@ -47,6 +48,3 @@ class UserRepository:
 
     async def delete(self, user_id: str) -> None:
         pass
-
-
-user_repository = UserRepository(session)
