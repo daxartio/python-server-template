@@ -1,8 +1,9 @@
+from functools import partial
+
 from fastapi import APIRouter, FastAPI
 
 from app.injector import inject
 
-from .dependencies import store
 from .users.resources import router as users_router
 
 
@@ -13,12 +14,14 @@ def create_app() -> FastAPI:
     app = FastAPI(title='API', description='API documentation')
     app.include_router(router, prefix='/api')
 
-    @app.on_event('startup')
-    async def startup_event():
-        services = inject()
-        for service in services:
-            store[type(service)] = service
-
+    app.on_event('startup')(partial(startup, app))
     # shutdown
 
     return app
+
+
+async def startup(app: FastAPI) -> None:
+    services = inject()
+    app.state.services = {}
+    for service in services:
+        app.state.services[type(service)] = service
