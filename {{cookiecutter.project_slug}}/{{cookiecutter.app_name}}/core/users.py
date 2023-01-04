@@ -16,7 +16,7 @@ class User:
 
 
 class Repo(Protocol):
-    async def get(self, user_id: str) -> User:
+    async def get(self, user_id: str) -> User | None:
         pass
 
     async def create(self, user: NewUser) -> User:
@@ -33,7 +33,7 @@ class UserService:
     def __init__(self, repo: Repo) -> None:
         self._repo = repo
 
-    async def get(self, user_id: str) -> User:
+    async def get(self, user_id: str) -> User | None:
         return await self._repo.get(user_id)
 
     async def create(self, user: NewUser) -> User:
