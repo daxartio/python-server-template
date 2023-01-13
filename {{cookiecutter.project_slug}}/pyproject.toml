@@ -58,9 +58,7 @@ unify = "*"
 {% if cookiecutter.use_docs == 'True' %}
 [tool.poetry.group.docs.dependencies]
 mkdocs = "*"
-mkdocs-include-markdown-plugin = "^3.9.1"
 mkdocs-material = "*"
-mkdocstrings = "*"
 {% endif %}
 [tool.poetry.group.migration.dependencies]
 alembic = "^1.9.1"
