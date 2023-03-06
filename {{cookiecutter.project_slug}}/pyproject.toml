@@ -20,40 +20,17 @@ SQLAlchemy = {extras = ["asyncio"], version = "^1.4.36"}
 uvicorn = {extras = ["standard"], version = "^0.17.6"}
 
 [tool.poetry.group.dev.dependencies]
-autoflake = "*"
-bandit = "*"
 black = "*"
 codecov = "*"
-flake8 = "*"
-flake8-annotations-complexity = "*"
-flake8-bandit = "*"
-flake8-breakpoint = "*"
-flake8-bugbear = "*"
-flake8-builtins = "*"
-flake8-comprehensions = "*"
-flake8-eradicate = "*"
-flake8-if-expr = "*"
-flake8-isort = "*"
-flake8-logging-format = "*"
-flake8-print = "*"
-flake8-pytest = "*"
-flake8-pytest-style = "*"
-flake8-requirements = "*"
-flake8-return = "*"
-flake8-tidy-imports = "^4.8.0"
-httpx = "^0.23.3"
 mypy = "*"
-pep8-naming = "*"
 poethepoet = "*"
-pylint = "*"
 pytest = "*"
 pytest-asyncio = "*"
 pytest-cov = "*"
 pytest-deadfixtures = "*"
 pytest-mock = "*"
-ruff = "^0.0.111"
+ruff = "*"
 toml = "*"
-unify = "*"
 {% if cookiecutter.use_docs == 'True' %}
 [tool.poetry.group.docs.dependencies]
 mkdocs = "*"
@@ -98,9 +75,6 @@ sequence = [
 help = "Check code"
 sequence = [
     {cmd = "ruff ${CODE}"},
-    {cmd = "flake8 --jobs 1 --statistics --show-source ${CODE}"},
-    {cmd = "pylint --jobs 1 --rcfile=pyproject.toml ${CODE}"},
-    {cmd = "bandit -c pyproject.toml -r ${CODE}"},
     {cmd = "black --check ${CODE}"},
     {cmd = "pytest --dead-fixtures --dup-fixtures"},
     {cmd = "mypy ${CODE}"},
@@ -109,11 +83,8 @@ sequence = [
 [tool.poe.tasks.format]
 help = "Formating code"
 sequence = [
-	{cmd = "ruff --fix ${CODE}"},
-	{cmd = "autoflake --recursive --in-place --remove-all-unused-imports ${CODE}"},
-	{cmd = "isort ${CODE}"},
+	{cmd = "ruff --fix-only ${CODE}"},
 	{cmd = "black ${CODE}"},
-	{cmd = "unify --in-place --recursive ${CODE}"},
 ]
 {% if cookiecutter.use_docs == 'True' %}
 [tool.poe.tasks.docs]
@@ -155,10 +126,6 @@ sequence = [
 	{cmd = "rm -rf htmlcov || true"},
 ]
 
-[tool.poe.tasks.git-lint]
-help = "Check git commit"
-cmd = "gitlint"
-
 [tool.mypy]
 check_untyped_defs = true
 disallow_any_generics = true
@@ -172,9 +139,6 @@ module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
-[tool.isort]
-profile = "black"
-
 [tool.coverage.run]
 omit = ["tests/*", "**/__main__.py", "**/.venv/*", "**/site-packages/*"]
 branch = true
@@ -184,25 +148,6 @@ show_missing = true
 skip_covered = true
 fail_under = 100
 
-[tool.pylint]
-good-names = ["i","j","k","e","x","_","pk","id"]
-max-args = 5
-max-attributes = 10
-max-bool-expr = 5
-max-module-lines = 300
-max-nested-blocks = 2
-max-public-methods = 30
-max-returns = 5
-max-statements = 30
-output-format = "colorized"
-ignored-classes = ["contextlib.closing"]
-disable = [
-    "C0111", # Missing module docstring (missing-docstring)
-    "R0901", # Too many ancestors (m/n) (too-many-ancestors)
-    "R0903", # Too few public methods (m/n) (too-few-public-methods)
-    "R0801", # duplicate-code
-]
-
 [tool.black]
 skip-string-normalization = true
 
@@ -210,9 +155,6 @@ skip-string-normalization = true
 asyncio_mode = "strict"
 addopts = "--strict-markers --showlocals --verbosity 2"
 log_level = "DEBUG"
-
-[tool.bandit]
-exclude_dirs = ["tests"]
 
 [tool.ruff]
 line-length = 88
