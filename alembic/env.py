@@ -2,7 +2,7 @@ import os
 from logging.config import fileConfig
 
 from alembic import context
-from {{cookiecutter.app_name}}.db import Base
+from app.db.models import Base
 from sqlalchemy import engine_from_config, pool
 
 DATABASE_URL = 'postgresql://' + os.environ['APP_DATABASE_URL']

@@ -1,14 +1,16 @@
-version: "3"
+version: "3.3"
 
 services:
-  {{cookiecutter.app_name}}:
+  app:
     build:
       context: .
-      dockerfile: docker/{{cookiecutter.app_name}}/Dockerfile
+      dockerfile: docker/app/Dockerfile
     volumes:
       - .:/opt/base-project
     depends_on:
       - postgres
+    ports:
+      - 8080:80
     environment:
       APP_DATABASE_URL: db:password@postgres/postgres
 

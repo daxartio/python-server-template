@@ -1,27 +1,29 @@
 [tool.poetry]
-name = "{{ cookiecutter.project_slug }}"
-version = "{{ cookiecutter.version }}"
-description = "{{ cookiecutter.description }}"
-authors = ["{{ cookiecutter.author }}"]
+name = "base-project"
+version = "1.0.0"
+description = ""
+authors = ["Your Name <email@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "{{ cookiecutter.repository }}"
-homepage = "{{ cookiecutter.homepage }}"
+repository = "https://github.com/username/base-project"
+homepage = "https://pypi.org/project/base-project"
 keywords = []
 
 [tool.poetry.dependencies]
-python = "^{{ cookiecutter.python_version }}"
+python = "^3.10"
 asyncpg = "^0.27.0"
 fastapi = "^0.89.1"
-gunicorn = "^20.1.0"
 orjson = "^3.8.3"
 pydantic = "^1.10.2"
 SQLAlchemy = {extras = ["asyncio"], version = "^1.4.36"}
 uvicorn = {extras = ["standard"], version = "^0.17.6"}
 
 [tool.poetry.group.dev.dependencies]
+autoflake = "*"
+bandit = "*"
 black = "*"
 codecov = "*"
+httpx = "^0.23.3"
 mypy = "*"
 poethepoet = "*"
 pytest = "*"
@@ -29,13 +31,16 @@ pytest-asyncio = "*"
 pytest-cov = "*"
 pytest-deadfixtures = "*"
 pytest-mock = "*"
-ruff = "*"
+ruff = "^0.0.111"
 toml = "*"
-{% if cookiecutter.use_docs == 'True' %}
+unify = "*"
+
 [tool.poetry.group.docs.dependencies]
 mkdocs = "*"
+mkdocs-include-markdown-plugin = "^3.9.1"
 mkdocs-material = "*"
-{% endif %}
+mkdocstrings = "*"
+
 [tool.poetry.group.migration.dependencies]
 alembic = "^1.9.1"
 psycopg2-binary = "^2.9.5"
@@ -45,7 +50,7 @@ requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poe.env]
-CODE = "tests {{ cookiecutter.app_name }}"
+CODE = "tests app"
 
 [tool.poe.tasks.all]
 help = "Run format lint test"
@@ -75,6 +80,9 @@ sequence = [
 help = "Check code"
 sequence = [
     {cmd = "ruff ${CODE}"},
+    {cmd = "flake8 --jobs 1 --statistics --show-source ${CODE}"},
+    {cmd = "pylint --jobs 1 --rcfile=pyproject.toml ${CODE}"},
+    {cmd = "bandit -c pyproject.toml -r ${CODE}"},
     {cmd = "black --check ${CODE}"},
     {cmd = "pytest --dead-fixtures --dup-fixtures"},
     {cmd = "mypy ${CODE}"},
@@ -83,10 +91,13 @@ sequence = [
 [tool.poe.tasks.format]
 help = "Formating code"
 sequence = [
-	{cmd = "ruff --fix-only ${CODE}"},
+	{cmd = "ruff --fix ${CODE}"},
+	{cmd = "autoflake --recursive --in-place --remove-all-unused-imports ${CODE}"},
+	{cmd = "isort ${CODE}"},
 	{cmd = "black ${CODE}"},
+	{cmd = "unify --in-place --recursive ${CODE}"},
 ]
-{% if cookiecutter.use_docs == 'True' %}
+
 [tool.poe.tasks.docs]
 help = "Build docs"
 cmd = "mkdocs build -s -v"
@@ -94,7 +105,7 @@ cmd = "mkdocs build -s -v"
 [tool.poe.tasks.docs-serve]
 help = "Serve docs"
 cmd = "mkdocs serve"
-{% endif %}
+
 [tool.poe.tasks.docs-changelog]
 help = "Build changelog"
 cmd = "git-changelog -s conventional -o CHANGELOG.md ."
@@ -126,6 +137,10 @@ sequence = [
 	{cmd = "rm -rf htmlcov || true"},
 ]
 
+[tool.poe.tasks.git-lint]
+help = "Check git commit"
+cmd = "gitlint"
+
 [tool.mypy]
 check_untyped_defs = true
 disallow_any_generics = true
@@ -139,6 +154,9 @@ module = "tests.*"
 disallow_untyped_defs = false
 disallow_incomplete_defs = false
 
+[tool.isort]
+profile = "black"
+
 [tool.coverage.run]
 omit = ["tests/*", "**/__main__.py", "**/.venv/*", "**/site-packages/*"]
 branch = true
@@ -148,6 +166,25 @@ show_missing = true
 skip_covered = true
 fail_under = 100
 
+[tool.pylint]
+good-names = ["i","j","k","e","x","_","pk","id"]
+max-args = 5
+max-attributes = 10
+max-bool-expr = 5
+max-module-lines = 300
+max-nested-blocks = 2
+max-public-methods = 30
+max-returns = 5
+max-statements = 30
+output-format = "colorized"
+ignored-classes = ["contextlib.closing"]
+disable = [
+    "C0111", # Missing module docstring (missing-docstring)
+    "R0901", # Too many ancestors (m/n) (too-many-ancestors)
+    "R0903", # Too few public methods (m/n) (too-few-public-methods)
+    "R0801", # duplicate-code
+]
+
 [tool.black]
 skip-string-normalization = true
 
@@ -155,6 +192,9 @@ skip-string-normalization = true
 asyncio_mode = "strict"
 addopts = "--strict-markers --showlocals --verbosity 2"
 log_level = "DEBUG"
+
+[tool.bandit]
+exclude_dirs = ["tests"]
 
 [tool.ruff]
 line-length = 88
