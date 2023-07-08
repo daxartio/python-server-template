@@ -6,7 +6,7 @@ The repository is python server template for a new project.
 
 - FastAPI
 - Sqlalchemy
-  - alemic
+  - alembic
 - Clean Architecture
 
 ## Quickstart

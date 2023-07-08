@@ -1,5 +1,5 @@
-from typing import Protocol
 import uuid
+from typing import Protocol
 
 
 class NewUser(Protocol):

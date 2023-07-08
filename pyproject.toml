@@ -23,6 +23,7 @@ uvicorn = {extras = ["standard"], version = "^0.22"}
 black = ">=23"
 codecov = "^2"
 httpx = "^0.24"
+isort = "^5.12.0"
 mypy = "^1.4"
 poethepoet = "^0.20"
 pytest = "^7"
@@ -80,6 +81,7 @@ sequence = [
 help = "Formating code"
 sequence = [
 	{cmd = "ruff check --fix-only ${CODE}"},
+	{cmd = "isort ${CODE}"},
 	{cmd = "black ${CODE}"},
 ]
 
