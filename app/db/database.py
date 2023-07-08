@@ -5,7 +5,7 @@ from sqlalchemy.pool import NullPool
 Base = declarative_base()
 
 
-def make_session(database_url: str) -> sessionmaker:
+def make_session(database_url: str) -> sessionmaker[AsyncSession]:
     engine = create_async_engine(
         'postgresql+asyncpg://' + database_url, poolclass=NullPool
     )

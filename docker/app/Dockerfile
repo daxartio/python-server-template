@@ -1,6 +1,6 @@
 FROM python:3.11-slim-buster
 
-WORKDIR /opt/base-project
+WORKDIR /opt/app
 
 ENV PYTHONDONTWRITEBYTECODE=off
 ENV PYTHONFAULTHANDLER=on

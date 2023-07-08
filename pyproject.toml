@@ -1,45 +1,36 @@
 [tool.poetry]
-name = "base-project"
+name = "app"
 version = "1.0.0"
 description = ""
 authors = ["Your Name <email@gmail.com>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/username/base-project"
-homepage = "https://pypi.org/project/base-project"
 keywords = []
 
 [tool.poetry.dependencies]
-python = "^3.10"
-asyncpg = "^0.27.0"
-fastapi = "^0.89.1"
+python = "^3.11"
+asyncpg = "^0.28.0"
+casers = "^0.6.0"
+fastapi = "^0.100"
 orjson = "^3.8.3"
-pydantic = "^1.10.2"
-SQLAlchemy = {extras = ["asyncio"], version = "^1.4.36"}
-uvicorn = {extras = ["standard"], version = "^0.17.6"}
+pydantic = "^2"
+pydantic-settings = "^2.0.1"
+python-json-logger = "^2.0.7"
+SQLAlchemy = {extras = ["asyncio"], version = "^2.0.18"}
+uvicorn = {extras = ["standard"], version = "^0.22"}
 
 [tool.poetry.group.dev.dependencies]
-autoflake = "*"
-bandit = "*"
-black = "*"
-codecov = "*"
-httpx = "^0.23.3"
-mypy = "*"
-poethepoet = "*"
-pytest = "*"
+black = ">=23"
+codecov = "^2"
+httpx = "^0.24"
+mypy = "^1.4"
+poethepoet = "^0.20"
+pytest = "^7"
 pytest-asyncio = "*"
 pytest-cov = "*"
 pytest-deadfixtures = "*"
 pytest-mock = "*"
-ruff = "^0.0.111"
-toml = "*"
-unify = "*"
-
-[tool.poetry.group.docs.dependencies]
-mkdocs = "*"
-mkdocs-include-markdown-plugin = "^3.9.1"
-mkdocs-material = "*"
-mkdocstrings = "*"
+ruff = "^0.0.277"
 
 [tool.poetry.group.migration.dependencies]
 alembic = "^1.9.1"
@@ -59,30 +50,27 @@ default_item_type = "ref"
 
 [tool.poe.tasks.test]
 help = "Test with coverage"
-cmd = "pytest --cov=./"
+cmd = "pytest -vv --cov=./"
 
 [tool.poe.tasks.test-fast]
 help = "Test until error"
-cmd = "pytest --exitfirst"
+cmd = "pytest -vv --exitfirst"
 
 [tool.poe.tasks.test-failed]
 help = "Test failed"
-cmd = "pytest --last-failed"
+cmd = "pytest -vv --last-failed"
 
 [tool.poe.tasks.test-report]
 help = "Report testing"
 sequence = [
-    {cmd = "pytest --cov --cov-report html"},
+    {cmd = "pytest -vv --cov --cov-report html"},
     {cmd = "python -m webbrowser 'htmlcov/index.html'"},
 ]
 
 [tool.poe.tasks.lint]
 help = "Check code"
 sequence = [
-    {cmd = "ruff ${CODE}"},
-    {cmd = "flake8 --jobs 1 --statistics --show-source ${CODE}"},
-    {cmd = "pylint --jobs 1 --rcfile=pyproject.toml ${CODE}"},
-    {cmd = "bandit -c pyproject.toml -r ${CODE}"},
+    {cmd = "ruff check ${CODE}"},
     {cmd = "black --check ${CODE}"},
     {cmd = "pytest --dead-fixtures --dup-fixtures"},
     {cmd = "mypy ${CODE}"},
@@ -91,55 +79,17 @@ sequence = [
 [tool.poe.tasks.format]
 help = "Formating code"
 sequence = [
-	{cmd = "ruff --fix ${CODE}"},
-	{cmd = "autoflake --recursive --in-place --remove-all-unused-imports ${CODE}"},
-	{cmd = "isort ${CODE}"},
+	{cmd = "ruff check --fix-only ${CODE}"},
 	{cmd = "black ${CODE}"},
-	{cmd = "unify --in-place --recursive ${CODE}"},
 ]
 
-[tool.poe.tasks.docs]
-help = "Build docs"
-cmd = "mkdocs build -s -v"
+[tool.poe.tasks.migrate]
+help = "Run the migration"
+cmd = "alembic upgrade head"
 
-[tool.poe.tasks.docs-serve]
-help = "Serve docs"
-cmd = "mkdocs serve"
-
-[tool.poe.tasks.docs-changelog]
-help = "Build changelog"
-cmd = "git-changelog -s conventional -o CHANGELOG.md ."
-
-[tool.poe.tasks.update-changelog]
-help = "Update changelog (commit)"
-sequence = [
-    {ref = "docs-changelog"},
-    {cmd = "git add ."},
-    {cmd = "git commit -m \"docs: update changelog\""},
-]
-
-[tool.poe.tasks.bump-version]
-help = "Bump version (commit and tag)"
-args = [{name = "version", positional = true, required = true}]
-sequence = [
-    {cmd = "poetry version ${version}"},
-    {cmd = "git add ."},
-    {cmd = "git commit -m \"Bump version ${version}\""},
-    {cmd = "git tag -m \"\" -a ${version}"},
-    {ref = "update-changelog"},
-]
-
-[tool.poe.tasks.clean]
-help = "Clean"
-sequence = [
-	{cmd = "rm -rf site || true"},
-	{cmd = "rm -rf dist || true"},
-	{cmd = "rm -rf htmlcov || true"},
-]
-
-[tool.poe.tasks.git-lint]
-help = "Check git commit"
-cmd = "gitlint"
+[tool.poe.tasks.run]
+help = "Run"
+cmd = "python -m app"
 
 [tool.mypy]
 check_untyped_defs = true
@@ -148,6 +98,7 @@ disallow_incomplete_defs = true
 disallow_untyped_defs = true
 ignore_missing_imports = true
 no_implicit_optional = true
+plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = "tests.*"
@@ -166,25 +117,6 @@ show_missing = true
 skip_covered = true
 fail_under = 100
 
-[tool.pylint]
-good-names = ["i","j","k","e","x","_","pk","id"]
-max-args = 5
-max-attributes = 10
-max-bool-expr = 5
-max-module-lines = 300
-max-nested-blocks = 2
-max-public-methods = 30
-max-returns = 5
-max-statements = 30
-output-format = "colorized"
-ignored-classes = ["contextlib.closing"]
-disable = [
-    "C0111", # Missing module docstring (missing-docstring)
-    "R0901", # Too many ancestors (m/n) (too-many-ancestors)
-    "R0903", # Too few public methods (m/n) (too-few-public-methods)
-    "R0801", # duplicate-code
-]
-
 [tool.black]
 skip-string-normalization = true
 
@@ -192,9 +124,6 @@ skip-string-normalization = true
 asyncio_mode = "strict"
 addopts = "--strict-markers --showlocals --verbosity 2"
 log_level = "DEBUG"
-
-[tool.bandit]
-exclude_dirs = ["tests"]
 
 [tool.ruff]
 line-length = 88

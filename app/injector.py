@@ -4,7 +4,7 @@ from .db.users import UserRepository
 from .settings import Settings
 
 
-def inject():
+def inject() -> tuple[UserService]:
     settings = Settings()
     session = make_session(settings.DATABASE_URL)
     user_service = UserService(UserRepository(session))

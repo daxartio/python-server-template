@@ -1,0 +1,12 @@
+.venv
+.env*
+.coverage
+.git/
+.gitlab-ci*
+.mypy_cache
+
+docker/
+**/Dockerfile
+docker-compose*.yml
+
+*.md
