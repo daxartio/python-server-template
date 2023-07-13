@@ -5,7 +5,7 @@ from alembic import context
 from app.db.models import Base
 from sqlalchemy import engine_from_config, pool
 
-DATABASE_URL = 'postgresql://' + os.environ['APP_DATABASE_URL']
+DATABASE_URL = os.environ['APP_DATABASE_URL']
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

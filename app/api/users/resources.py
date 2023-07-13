@@ -2,7 +2,7 @@ import uuid
 
 from fastapi import APIRouter
 
-from app.api.dependencies import DependsService
+from app.api.dependencies.services import DependsService
 from app.api.exceptions import NotFoundError
 from app.api.users import schemas
 from app.core.users import UserService
@@ -19,11 +19,3 @@ async def get_users(
         raise NotFoundError
 
     return user
-
-
-@router.post('/users')
-async def create_users(
-    user: schemas.NewUser,
-    user_service: UserService = DependsService(UserService),
-) -> schemas.User:
-    return await user_service.create(user)

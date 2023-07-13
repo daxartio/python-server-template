@@ -23,6 +23,7 @@ def upgrade() -> None:
     sa.Column('id', UUID(as_uuid=True), nullable=False),
     sa.Column('full_name', sa.String(), nullable=False),
     sa.Column('email', sa.String(), nullable=False),
+    sa.Column('password_hash', sa.String(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
