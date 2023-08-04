@@ -49,7 +49,7 @@ class UserRepository:
         return db_user
 
     async def update(self, user: User) -> DBUser:
-        pass
+        raise NotImplementedError
 
     async def delete(self, user_id: uuid.UUID) -> None:
-        pass
+        raise NotImplementedError
