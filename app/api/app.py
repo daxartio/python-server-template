@@ -1,6 +1,6 @@
 from fastapi import APIRouter, FastAPI
 
-from app.injector import inject
+from app.injector import make_services
 
 from .auth.resources import router as auth_router
 from .dependencies.services import inject_services
@@ -13,7 +13,7 @@ def create_app() -> FastAPI:
     app.include_router(_include_api_router(APIRouter()), prefix='/api')
     app.include_router(_include_tech_router(APIRouter()), prefix='')
 
-    inject_services(app, inject())
+    inject_services(app, make_services())
 
     return app
 

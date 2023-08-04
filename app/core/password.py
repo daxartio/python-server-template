@@ -1,5 +1,5 @@
-import hashlib
+import parol
 
 
-def hasher(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+def hasher(password: str, salt: str) -> str:
+    return parol.Password(password, salt).hash

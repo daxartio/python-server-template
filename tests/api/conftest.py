@@ -5,7 +5,7 @@ import pytest_asyncio
 from fastapi.testclient import TestClient
 
 from app.api.app import create_app
-from app.injector import inject
+from app.injector import make_services
 
 
 @pytest.fixture()
@@ -15,14 +15,13 @@ def client():
 
 
 @pytest.fixture()
-def injector():
-    return inject()
+def services():
+    return make_services()
 
 
 @pytest.fixture()
-def user_service(injector):
-    (user_service, *_) = injector
-    return user_service
+def user_service(services):
+    return services.user_service
 
 
 @pytest_asyncio.fixture()
@@ -31,4 +30,4 @@ async def user(user_service):
         full_name: str
         email: str
 
-    return await user_service.create(NewUser('user_name', "email@ex.com"), "123")
+    return await user_service.create(NewUser('user_name', "email@ex.com"), "123", "123")

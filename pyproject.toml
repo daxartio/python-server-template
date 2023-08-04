@@ -13,6 +13,7 @@ asyncpg = "^0.28.0"
 casers = "^0.6.0"
 fastapi = "^0.100"
 orjson = "^3.8.3"
+parol = "^1.0.1"
 pydantic = "^2"
 pydantic-settings = "^2.0.1"
 pyjwt = "^2.7.0"
@@ -90,6 +91,15 @@ sequence = [
 [tool.poe.tasks.migrate]
 help = "Run the migration"
 cmd = "alembic upgrade head"
+
+[tool.poe.tasks.migration]
+help = "Create new migration"
+args   = [{ name = "message", positional = true, required = true }]
+cmd = "alembic revision --autogenerate --message ${message}"
+
+[tool.poe.tasks.cli]
+help = "CLI"
+cmd = "python -m app"
 
 [tool.poe.tasks.run]
 help = "Run"

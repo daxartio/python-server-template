@@ -872,6 +872,17 @@ files = [
 ]
 
 [[package]]
+name = "parol"
+version = "1.0.1"
+description = ""
+optional = false
+python-versions = ">=3.8,<4.0"
+files = [
+    {file = "parol-1.0.1-py3-none-any.whl", hash = "sha256:ff6d790ac5dd255db7f80638d7323acbdbbad0ed3add659af2a18a7c7feaef94"},
+    {file = "parol-1.0.1.tar.gz", hash = "sha256:748144f911df6f532629c5da402d5fa5546211d283b3a1bd01706aac93475f6d"},
+]
+
+[[package]]
 name = "pastel"
 version = "0.2.1"
 description = "Bring colors to your terminal."
@@ -1735,4 +1746,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "a71dac90cf67f23080131a59d8e1905b329e95402ce1a9d51fd4605177d39f96"
+content-hash = "86122045599000bed87b7d5fc01f98a9aab09a8f5b8d252cf89cb042726e5af3"
