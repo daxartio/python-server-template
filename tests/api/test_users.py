@@ -4,17 +4,11 @@ def test_get_unknown_user(client):
     assert result.status_code == 404
 
 
-def test_create_user(client):
-    result = client.post(
-        '/api/users', json={'full_name': 'John Doe', 'email': 'email@ex.com'}
-    )
+def test_get_user(client, user):
+    result = client.get(f'/api/users/{user.id}')
 
     assert result.status_code == 200
-    user = result.json()
-    assert user['id']
-    assert user['fullName'] == 'John Doe'
-    assert user['email'] == 'email@ex.com'
-
-
-def test_create_existed_user():
-    pass
+    user_response = result.json()
+    assert user_response['id']
+    assert user_response['fullName'] == user.full_name
+    assert user_response['email'] == user.email

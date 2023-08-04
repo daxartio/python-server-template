@@ -13,5 +13,5 @@ async def sign_in(sign: SignIn) -> Token:
 
 
 @router.post('/auth/sign-up')
-async def sign_in(sign: SignUp) -> None:
+async def sign_up(sign: SignUp) -> None:
     pass
