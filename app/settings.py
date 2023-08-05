@@ -26,3 +26,8 @@ class ServerSettings(BaseSettings):
     port: int = 8080
     timeout_keep_alive: int = 70
     backlog: int = 2048
+
+
+class AuthSettings(BaseSettings):
+    model_config = SettingsConfigDict(env_prefix="app_auth_")
+    private_key: str

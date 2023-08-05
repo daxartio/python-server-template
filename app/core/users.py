@@ -1,5 +1,7 @@
 import uuid
-from typing import Callable, Protocol
+from typing import Protocol
+
+from .password import Hasher
 
 
 class NewUser(Protocol):
@@ -28,7 +30,7 @@ class Repo(Protocol):
 
 
 class UserService:
-    def __init__(self, repo: Repo, hasher: Callable[[str, str], str]) -> None:
+    def __init__(self, repo: Repo, hasher: Hasher) -> None:
         self._repo = repo
         self._hasher = hasher
 

@@ -5,7 +5,7 @@ import typer
 from pydantic import BaseModel
 
 from app.core.users import User as CreatedUser
-from app.injector import make_services
+from app.services import make_services
 
 app = typer.Typer()
 

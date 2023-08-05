@@ -1,11 +1,7 @@
 from casers.pydantic import CamelAliases
 
 
-class SignUp(CamelAliases):
-    pass
-
-
-class SignIn(CamelAliases):
+class Login(CamelAliases):
     email: str
     password: str
 
@@ -13,5 +9,5 @@ class SignIn(CamelAliases):
 class Token(CamelAliases):
     access_token: str
     refresh_token: str
-    token_type: str = "Bearer"
-    expires: int = 3600
+    token_type: str
+    expires: int

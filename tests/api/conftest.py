@@ -5,7 +5,7 @@ import pytest_asyncio
 from fastapi.testclient import TestClient
 
 from app.api.app import create_app
-from app.injector import make_services
+from app.services import make_services
 
 
 @pytest.fixture()
