@@ -1,7 +1,7 @@
 from typing import NamedTuple
 
 from .core.auth import AuthService
-from .core.password import hasher
+from .core.password import hasher, verify
 from .core.token import make_encoder
 from .core.users import UserService
 from .db.database import make_session
@@ -21,7 +21,7 @@ def make_services() -> Services:
     user_repo = UserRepository(session)
     user_service = UserService(user_repo, hasher)
     auth_service = AuthService(
-        user_repo, hasher, make_encoder(auth_settings.private_key)
+        user_repo, verify, make_encoder(auth_settings.private_key)
     )
 
     return Services(user_service, auth_service)

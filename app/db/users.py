@@ -20,7 +20,6 @@ class DBUser(Base):
     full_name: Column[str] = Column(String, nullable=False)
     email: Column[str] = Column(String, nullable=False, unique=True)
     password_hash: Column[str] = Column(String, nullable=False)
-    salt: Column[str] = Column(String, nullable=False)
 
     def __repr__(self) -> str:
         return f'User(id={self.id})'
@@ -42,13 +41,12 @@ class UserRepository:
             result = await session.execute(stmt)
         return result.scalars().first()
 
-    async def create(self, user: NewUser, password_hash: str, salt: str) -> DBUser:
+    async def create(self, user: NewUser, password_hash: str) -> DBUser:
         db_user = DBUser(
             id=uuid.uuid4(),
             full_name=user.full_name,
             email=user.email,
             password_hash=password_hash,
-            salt=salt,
         )
         async with self._session() as session:
             async with session.begin():
