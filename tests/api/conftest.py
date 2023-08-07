@@ -30,4 +30,4 @@ async def user(user_service):
         full_name: str
         email: str
 
-    return await user_service.create(NewUser('user_name', "email@ex.com"), "123", "123")
+    return await user_service.create(NewUser('user_name', "email@ex.com"), "123")

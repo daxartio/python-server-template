@@ -1,7 +1,7 @@
 import time
 import uuid
 from datetime import datetime, timedelta
-from typing import Any, Callable, NamedTuple, Protocol
+from typing import Any, NamedTuple, Protocol
 
 from .password import Verifier
 
@@ -12,8 +12,12 @@ class User(Protocol):
     password_hash: str
 
 
-class Login(Protocol):
-    email: str
+class UserPayload(NamedTuple):
+    id: uuid.UUID
+
+
+class Credentials(Protocol):
+    username: str
     password: str
 
 
@@ -26,25 +30,35 @@ class Token(NamedTuple):
 
 class Repo(Protocol):
     async def get_user_by_email(self, email: str) -> User | None:
-        pass
+        ...
+
+
+class JWT(Protocol):
+    def encode(self, data: dict[str, Any]) -> str:
+        ...
+
+    def decode(self, token: str) -> dict[str, Any]:
+        ...
 
 
 class AuthService:
-    def __init__(
-        self, repo: Repo, verify: Verifier, encoder: Callable[[dict[str, Any]], str]
-    ) -> None:
+    def __init__(self, repo: Repo, verify: Verifier, jwt: JWT) -> None:
         self._repo = repo
         self._verify = verify
-        self._encoder = encoder
+        self._jwt = jwt
         self._access_lifetime = 3600
         self._refresh_lifetime = 3600
 
-    async def issue_token(self, login: Login) -> Token | None:
-        user = await self._repo.get_user_by_email(login.email)
+    def decode(self, token: str) -> UserPayload:
+        data = self._jwt.decode(token)
+        return UserPayload(uuid.UUID(data["sub"]))
+
+    async def issue_token(self, creds: Credentials) -> Token | None:
+        user = await self._repo.get_user_by_email(creds.username)
         if not user:
             return None
 
-        if not self._verify(login.password, user.password_hash):
+        if not self._verify(creds.password, user.password_hash):
             return None
 
         now = datetime.utcnow()
@@ -60,7 +74,7 @@ class AuthService:
         }
 
         return Token(
-            access_token=self._encoder(data),
+            access_token=self._jwt.encode(data),
             refresh_token="",
             token_type="Bearer",
             expires=3600,

@@ -1,14 +1,16 @@
-from functools import partial
-from typing import Any, Callable
+from typing import Any
 
 import jwt
 
 ALGORITHM = 'HS256'
 
 
-def encode(data: dict[str, Any], private_key: str) -> str:
-    return jwt.encode(data, private_key, algorithm=ALGORITHM)
+class JWT:
+    def __init__(self, private_key: str) -> None:
+        self._private_key = private_key
 
+    def encode(self, data: dict[str, Any]) -> str:
+        return jwt.encode(data, self._private_key, algorithm=ALGORITHM)
 
-def make_encoder(private_key: str) -> Callable[[dict[str, Any]], str]:
-    return partial(encode, private_key=private_key)
+    def decode(self, token: str) -> dict[str, Any]:
+        return jwt.decode(token, self._private_key, algorithms=[ALGORITHM])
