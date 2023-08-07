@@ -9,7 +9,11 @@ from .users.resources import router as users_router
 
 
 def create_app() -> FastAPI:
-    app = FastAPI(title='API', description='API documentation')
+    app = FastAPI(
+        title='Application API',
+        description='API documentation',
+        version="1.0.0",
+    )
     app.include_router(_include_api_router(APIRouter()), prefix='/api')
     app.include_router(_include_tech_router(APIRouter()), prefix='')
 

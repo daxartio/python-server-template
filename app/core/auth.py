@@ -12,7 +12,7 @@ class User(Protocol):
     password_hash: str
 
 
-class UserPayload(NamedTuple):
+class UserTokenPayload(NamedTuple):
     id: uuid.UUID
 
 
@@ -41,6 +41,10 @@ class JWT(Protocol):
         ...
 
 
+class InvalidTokenError(Exception):
+    pass
+
+
 class AuthService:
     def __init__(self, repo: Repo, verify: Verifier, jwt: JWT) -> None:
         self._repo = repo
@@ -49,9 +53,9 @@ class AuthService:
         self._access_lifetime = 3600
         self._refresh_lifetime = 3600
 
-    def decode(self, token: str) -> UserPayload:
+    def decode(self, token: str) -> UserTokenPayload:
         data = self._jwt.decode(token)
-        return UserPayload(uuid.UUID(data["sub"]))
+        return UserTokenPayload(uuid.UUID(data["sub"]))
 
     async def issue_token(self, creds: Credentials) -> Token | None:
         user = await self._repo.get_user_by_email(creds.username)

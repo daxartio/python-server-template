@@ -7,6 +7,7 @@ The repository is python server template for a new project.
 - FastAPI
 - Sqlalchemy
   - alembic
+- Access token
 - Clean Architecture
 
 ## Quickstart
@@ -14,6 +15,7 @@ The repository is python server template for a new project.
 ```
 docker-compose build app
 docker-compose run --rm app poe migrate
+docker-compose run --rm app poe cli -- users create username email password
 docker-compose up app
 ```
 

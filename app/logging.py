@@ -33,7 +33,7 @@ def make_config(
         'formatters': {
             'sage': {
                 'format': '%(message)s',
-                # 'class': 'pythonjsonlogger.jsonlogger.JsonFormatter',
+                'class': 'pythonjsonlogger.jsonlogger.JsonFormatter',
             }
         },
     }
