@@ -4,7 +4,7 @@ import typer
 from pydantic import BaseModel
 
 from app.core.users import User as CreatedUser
-from app.services import make_services
+from app.deps import make_deps
 
 app = typer.Typer()
 
@@ -21,6 +21,6 @@ class User(BaseModel):
 
 
 async def _create(full_name: str, email: str, password: str) -> CreatedUser:
-    services = make_services()
+    deps = make_deps()
     user = User(full_name=full_name, email=email)
-    return await services.user_service.create(user, password)
+    return await deps.user_service.create(user, password)

@@ -7,5 +7,9 @@ def hasher(password: Password) -> Hash:
     return parol.Password(password.encode()).hash().decode()
 
 
-def verify(password: Password, hash: Hash) -> bool:
-    return parol.Password(password.encode()).verify(hash.encode())
+def verify(password: Password, password_hash: Hash) -> bool:
+    return parol.Password(password.encode()).verify(password_hash.encode())
+
+
+def generate() -> Password:
+    return parol.Password.gen().password.decode()

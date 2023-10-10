@@ -30,4 +30,6 @@ class ServerSettings(BaseSettings):
 
 class AuthSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="app_auth_")
-    private_key: str
+    private_key: bytes
+    public_key: bytes
+    access_token_lifetime: int = 1800

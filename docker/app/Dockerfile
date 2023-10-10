@@ -6,11 +6,11 @@ ENV PYTHONDONTWRITEBYTECODE=off
 ENV PYTHONFAULTHANDLER=on
 ENV PYTHONUNBUFFERED=on
 
-RUN pip install poetry==1.5.1 \
+RUN pip install poetry==1.6.1 \
     && poetry config virtualenvs.create false
 
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml ./
 
-RUN poetry install
+RUN poetry install --no-interaction --no-ansi --no-root --no-cache --all-extras
 
 COPY app app
