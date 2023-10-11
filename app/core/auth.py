@@ -82,10 +82,12 @@ class AuthService:
 
         if not self._verify(creds.password, user.password_hash):
             return None
+        return self.create_token(user.id)
 
+    def create_token(self, user_id: uuid.UUID) -> Token:
         now = datetime.now(tz=timezone.utc)
         payload = JWTPayload(
-            sub=str(user.id),
+            sub=str(user_id),
             exp=int(
                 time.mktime(
                     (now + timedelta(seconds=self._access_lifetime)).timetuple(),

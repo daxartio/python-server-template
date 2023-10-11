@@ -5,6 +5,7 @@ import pytest_asyncio
 from fastapi.testclient import TestClient
 
 from app.api.app import create_app
+from app.core.auth import AuthService
 from app.core.users import User, UserService
 from app.deps import Deps, make_deps
 
@@ -25,10 +26,23 @@ def user_service(deps: Deps) -> UserService:
     return deps.user_service
 
 
+@pytest.fixture()
+def auth_service(deps: Deps) -> AuthService:
+    return deps.auth_service
+
+
+@pytest.fixture()
+def create_token(auth_service: AuthService) -> Any:
+    return auth_service.create_token
+
+
 @pytest_asyncio.fixture()
 async def user(user_service: UserService) -> User:
     class NewUser(NamedTuple):
         full_name: str
         email: str
 
-    return await user_service.create(NewUser('user_name', "email@ex.com"), "123")
+    async def _create_user(full_name: str, email: str, password: str) -> User:
+        return await user_service.create(NewUser(full_name, email), password)
+
+    return await _create_user("name", "example@email.com", "123")
