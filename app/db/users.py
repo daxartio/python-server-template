@@ -2,9 +2,8 @@ import uuid
 
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.future import select
-from sqlalchemy.orm import sessionmaker
 
 from app.core.auth import User as AuthUser
 from app.core.users import NewUser, User
@@ -26,7 +25,7 @@ class DBUser(Base):
 
 
 class UserRepository:
-    def __init__(self, session: sessionmaker[AsyncSession]) -> None:
+    def __init__(self, session: async_sessionmaker[AsyncSession]) -> None:
         self._session = session
 
     async def get(self, user_id: uuid.UUID) -> User | None:

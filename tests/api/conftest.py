@@ -1,4 +1,5 @@
-from typing import Any, NamedTuple
+from dataclasses import dataclass
+from typing import Any
 
 import pytest
 import pytest_asyncio
@@ -38,7 +39,8 @@ def create_token(auth_service: AuthService) -> Any:
 
 @pytest_asyncio.fixture()
 async def user(user_service: UserService) -> User:
-    class NewUser(NamedTuple):
+    @dataclass
+    class NewUser:
         full_name: str
         email: str
 

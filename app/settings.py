@@ -3,21 +3,23 @@ from typing import Literal
 from pydantic import PostgresDsn
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
+ENV_PREFIX = "app_"
+
 
 class DBSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="app_database_")
+    model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}database_")
 
     url: PostgresDsn
 
 
 class LoggingSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="app_logging_")
+    model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}logging_")
 
     level: str = "INFO"
 
 
 class ServerSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="app_server_")
+    model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}server_")
 
     workers: int = 1
     reload: bool = False
@@ -29,7 +31,7 @@ class ServerSettings(BaseSettings):
 
 
 class AuthSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="app_auth_")
+    model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}auth_")
     private_key: bytes
     public_key: bytes
     access_token_lifetime: int = 1800

@@ -1,3 +1,6 @@
+from contextlib import asynccontextmanager
+from typing import AsyncGenerator
+
 from fastapi import APIRouter, FastAPI
 
 from app.deps import make_deps
@@ -13,13 +16,18 @@ def create_app() -> FastAPI:
         title='Application API',
         description='API documentation',
         version="1.0.0",
+        lifespan=_lifespan,
     )
     app.include_router(_include_api_router(APIRouter()), prefix='/api')
     app.include_router(_include_tech_router(APIRouter()), prefix='')
 
-    inject_deps(app, make_deps())
-
     return app
+
+
+@asynccontextmanager
+async def _lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
+    inject_deps(app, make_deps())
+    yield
 
 
 def _include_api_router(router: APIRouter) -> APIRouter:

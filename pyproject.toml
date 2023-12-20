@@ -8,11 +8,11 @@ readme = "README.md"
 keywords = []
 
 [tool.poetry.dependencies]
-python = "^3.11"
-asyncpg = "^0.28.0"
-casers = "^0.6.0"
-fastapi = "^0.100"
-orjson = "^3.8.3"
+python = "^3.12"
+asyncpg = "^0.29.0"
+casers = "^0.8.0"
+fastapi = "^0.105"
+orjson = "^3.9.10"
 parol = "^1.1.0"
 pydantic = "^2"
 pydantic-settings = "^2.0.1"
@@ -26,14 +26,14 @@ uvicorn = {extras = ["standard"], version = "^0.22"}
 black = ">=23"
 httpx = "^0.24"
 isort = "^5.12.0"
-mypy = "^1.5.1"
+mypy = "^1.7.1"
 poethepoet = "^0.20"
 pytest = "^7"
 pytest-asyncio = "*"
 pytest-cov = "*"
 pytest-deadfixtures = "*"
 pytest-mock = "*"
-ruff = "^0.0.277"
+ruff = "^0.1.8"
 
 [tool.poetry.group.migration.dependencies]
 alembic = "^1.9.1"

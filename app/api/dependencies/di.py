@@ -7,11 +7,9 @@ DepT = TypeVar('DepT')
 
 
 def inject_deps(app: FastAPI, deps: Iterable[DepT]) -> None:
-    @app.on_event('startup')
-    async def _startup() -> None:
-        app.state.deps = {}
-        for service in deps:
-            app.state.deps[type(service)] = service
+    app.state.deps = {}
+    for service in deps:
+        app.state.deps[type(service)] = service
 
 
 def get_dep(service_cls: Type[DepT]) -> Callable[[Request], DepT]:
