@@ -1,13 +1,13 @@
 # Project Template
 
-The repository is python server template for a new project.
+The repository is python server template for new project.
 
 ## Features
 
 - FastAPI
 - Sqlalchemy
   - alembic
-- Access token
+- Access token (RS256)
 - Clean Architecture
 
 ## Quickstart
