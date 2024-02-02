@@ -12,6 +12,7 @@ python = "^3.12"
 asyncpg = "^0.29.0"
 casers = {version = "^0.8.0", extras = ["pydantic"]}
 fastapi = "^0.105"
+kontext = "^1.0.0"
 orjson = "^3.9.10"
 parol = "^1.1.0"
 pydantic = "^2"

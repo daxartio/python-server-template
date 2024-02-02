@@ -17,5 +17,6 @@ def up() -> None:
         create_app,
         factory=True,
         log_config=make_config(level=logging_settings.level),
+        access_log=False,
         **ServerSettings().model_dump()
     )

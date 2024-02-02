@@ -19,21 +19,25 @@ def setup_excepthook(logger: Optional[logging.Logger] = None) -> None:
 def make_config(
     level: Union[str, int] = "INFO",
     disable_existing_loggers: bool = False,
+    static_fields: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
+    static_fields = static_fields or {}
+
     return {
         'version': 1,
         'disable_existing_loggers': disable_existing_loggers,
         'root': {'handlers': ['console'], 'level': level},
         'handlers': {
             'console': {
-                'formatter': 'sage',
+                'formatter': 'main',
                 'class': 'logging.StreamHandler',
             }
         },
         'formatters': {
-            'sage': {
+            'main': {
                 'format': '%(message)s',
-                'class': 'pythonjsonlogger.jsonlogger.JsonFormatter',
+                'static_fields': static_fields,
+                '()': 'app.formatter.LogFormatter',
             }
         },
     }

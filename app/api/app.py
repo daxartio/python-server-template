@@ -7,6 +7,8 @@ from app.deps import make_deps
 
 from .auth.resources import router as auth_router
 from .dependencies.di import inject_deps
+from .middlewares.logger import RequestLoggerMiddleware
+from .middlewares.request_id import RequestIdMiddleware
 from .probes.resources import router as probes_router
 from .users.resources import router as users_router
 
@@ -18,6 +20,10 @@ def create_app() -> FastAPI:
         version="1.0.0",
         lifespan=_lifespan,
     )
+
+    app.add_middleware(RequestLoggerMiddleware)
+    app.add_middleware(RequestIdMiddleware)
+
     app.include_router(_include_api_router(APIRouter()), prefix='/api')
     app.include_router(_include_tech_router(APIRouter()), prefix='')
 
