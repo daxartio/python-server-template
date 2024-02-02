@@ -38,16 +38,13 @@ class Credentials(Protocol):
 
 
 class Repo(Protocol):
-    async def get_user_by_email(self, email: str) -> User | None:
-        ...
+    async def get_user_by_email(self, email: str) -> User | None: ...
 
 
 class JWT(Protocol):
-    def encode(self, payload: JWTPayload) -> str:
-        ...
+    def encode(self, payload: JWTPayload) -> str: ...
 
-    def decode(self, token: str) -> JWTPayload | None:
-        ...
+    def decode(self, token: str) -> JWTPayload | None: ...
 
 
 class InvalidTokenError(Exception):

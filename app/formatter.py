@@ -28,3 +28,5 @@ class LogFormatter(jsonlogger.JsonFormatter):
             log_record['ctx'] = current_context.copy().__dict__["data"]
         except Exception:  # pragma: no cover
             log_record["ctx"] = str(current_context.copy())
+
+        log_record.pop('color_message', None)
