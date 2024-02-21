@@ -15,12 +15,17 @@ def up() -> None:
     logging_settings = LoggingSettings()
 
     setup_excepthook()
-    logging.config.dictConfig(make_config(level=logging_settings.level))
+    logging.config.dictConfig(
+        make_config(
+            level=logging_settings.level,
+            exclude_fields=['color_message', 'taskName'],
+        )
+    )
 
     uvicorn.run(
         create_app,
         factory=True,
         log_config=None,
-        access_log=True,
+        access_log=False,
         **ServerSettings().model_dump()
     )

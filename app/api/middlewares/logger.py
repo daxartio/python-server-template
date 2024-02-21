@@ -13,8 +13,12 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
         self, request: Request, call_next: Callable[[Request], Awaitable[Response]]
     ) -> Response:
         start_time = time.monotonic()
+        status_code = 500
+        path = request.url.path
+
         try:
             response = await call_next(request)
+            status_code = response.status_code
         finally:
             end_time = time.monotonic()
             total_time = end_time - start_time
@@ -22,7 +26,11 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
                 'Request: %s %s',
                 request.method,
                 request.url,
-                extra={'latency': total_time},
+                extra={
+                    'latency': round(total_time, 6),
+                    'status': status_code,
+                    'path': path,
+                },
             )
 
         return response
