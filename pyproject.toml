@@ -11,7 +11,7 @@ keywords = []
 python = "^3.12"
 asyncpg = "^0.29.0"
 casers = {version = "^0.8.0", extras = ["pydantic"]}
-fastapi = "^0.105"
+fastapi = "^0.109.2"
 kontext = "^1.0.0"
 orjson = "^3.9.10"
 parol = "^1.1.0"
@@ -21,7 +21,7 @@ pyjwt = {version = "^2.7.0", extras = ["crypto"]}
 python-json-logger = "^2.0.7"
 SQLAlchemy = {extras = ["asyncio"], version = "^2.0.18"}
 typer = "^0.9.0"
-uvicorn = {extras = ["standard"], version = "^0.22"}
+uvicorn = {extras = ["standard"], version = "^0.27.1"}
 
 [tool.poetry.group.dev.dependencies]
 black = ">=23"

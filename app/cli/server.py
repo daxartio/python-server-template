@@ -1,3 +1,5 @@
+import logging.config
+
 import typer
 import uvicorn
 
@@ -13,10 +15,12 @@ def up() -> None:
     logging_settings = LoggingSettings()
 
     setup_excepthook()
+    logging.config.dictConfig(make_config(level=logging_settings.level))
+
     uvicorn.run(
         create_app,
         factory=True,
-        log_config=make_config(level=logging_settings.level),
-        access_log=False,
+        log_config=None,
+        access_log=True,
         **ServerSettings().model_dump()
     )

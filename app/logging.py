@@ -18,19 +18,19 @@ def setup_excepthook(logger: Optional[logging.Logger] = None) -> None:
 
 def make_config(
     level: Union[str, int] = "INFO",
-    disable_existing_loggers: bool = False,
     static_fields: Optional[Dict[str, Any]] = None,
 ) -> Dict[str, Any]:
     static_fields = static_fields or {}
 
     return {
         'version': 1,
-        'disable_existing_loggers': disable_existing_loggers,
+        'disable_existing_loggers': False,
         'root': {'handlers': ['console'], 'level': level},
         'handlers': {
             'console': {
                 'formatter': 'main',
                 'class': 'logging.StreamHandler',
+                "stream": "ext://sys.stdout",
             }
         },
         'formatters': {
