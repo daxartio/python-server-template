@@ -23,7 +23,6 @@ class ServerSettings(BaseSettings):
 
     workers: int = 1
     reload: bool = False
-    loop: Literal['none', 'auto', 'asyncio', 'uvloop'] = 'auto'
     host: str = '0.0.0.0'
     port: int = 8080
     timeout_keep_alive: int = 70

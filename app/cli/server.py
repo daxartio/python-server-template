@@ -27,5 +27,6 @@ def up() -> None:
         factory=True,
         log_config=None,
         access_log=False,
+        loop='uvloop',
         **ServerSettings().model_dump()
     )
