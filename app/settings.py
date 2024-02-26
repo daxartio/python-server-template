@@ -19,7 +19,6 @@ class LoggingSettings(BaseSettings):
 class ServerSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}server_")
 
-    workers: int = 1
     reload: bool = False
     host: str = '0.0.0.0'
     port: int = 8080
