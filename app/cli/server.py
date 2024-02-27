@@ -2,9 +2,9 @@ import logging.config
 
 import typer
 import uvicorn
+from log import make_config, setup_excepthook
 
 from app.api.app import create_app
-from app.logging import make_config, setup_excepthook
 from app.settings import LoggingSettings, ServerSettings
 
 app = typer.Typer()

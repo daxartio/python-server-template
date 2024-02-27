@@ -1,8 +1,8 @@
 import uuid
 from typing import Any, Callable
 
-from app.core.auth import Token
-from app.core.users import User
+from app_core.auth import Token
+from app_core.users import User
 
 
 def test_get_unknown_user(

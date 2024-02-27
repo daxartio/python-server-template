@@ -3,11 +3,11 @@ from typing import Any
 
 import pytest
 import pytest_asyncio
+from app_core.auth import AuthService
+from app_core.users import User, UserService
 from fastapi.testclient import TestClient
 
 from app.api.app import create_app
-from app.core.auth import AuthService
-from app.core.users import User, UserService
 from app.deps import Deps, make_deps
 
 

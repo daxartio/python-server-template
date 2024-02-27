@@ -1,6 +1,5 @@
 import parol
-
-from app.core.password import Hash, Password
+from app_core.password import Hash, Password
 
 
 def hasher(password: Password) -> Hash:

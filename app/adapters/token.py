@@ -1,8 +1,7 @@
 import jwt
+from app_core import auth
 from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel, ConfigDict
-
-from app.core import auth
 
 ALGORITHM = 'RS256'
 

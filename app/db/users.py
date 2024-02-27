@@ -1,12 +1,11 @@
 import uuid
 
+from app_core.auth import User as AuthUser
+from app_core.users import NewUser, User
 from sqlalchemy import Column, String
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.asyncio import AsyncSession, async_sessionmaker
 from sqlalchemy.future import select
-
-from app.core.auth import User as AuthUser
-from app.core.users import NewUser, User
 
 from .database import Base
 

@@ -1,9 +1,9 @@
 import asyncio
 
 import typer
+from app_core.users import User as CreatedUser
 from pydantic import BaseModel
 
-from app.core.users import User as CreatedUser
 from app.deps import make_deps
 
 app = typer.Typer()

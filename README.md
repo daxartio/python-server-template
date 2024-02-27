@@ -13,7 +13,8 @@ This is a Python-based web application that uses Docker for containerization, Al
 
 ## Structure
 
-- `app` is where the main application code resides. It includes several modules such as adapters, `api`, `cli`, `core`, and `db`. The `settings.py` file contains configuration settings for the application, and `deps.py` manages project dependencies.
+- `app` is where the main application code resides. It includes several modules such as adapters, `api`, `cli`, and `db`. The `settings.py` file contains configuration settings for the application, and `deps.py` manages project dependencies.
+- `packages` is where the project dependencies are defined.
 
 ## Quickstart
 

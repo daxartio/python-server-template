@@ -11,6 +11,7 @@ RUN pip install poetry==1.7.1 \
     && poetry config virtualenvs.in-project true
 
 COPY pyproject.toml poetry.lock ./
+COPY packages packages
 
 RUN poetry install --only main --no-interaction --no-ansi --no-root --no-cache
 

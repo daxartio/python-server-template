@@ -1,8 +1,9 @@
 from typing import NamedTuple
 
+from app_core.auth import AuthService
+from app_core.users import UserService
+
 from .adapters import password, token
-from .core.auth import AuthService
-from .core.users import UserService
 from .db.database import make_session
 from .db.users import UserRepository
 from .settings import AuthSettings, DBSettings

@@ -1,14 +1,14 @@
 import uuid
 from typing import Annotated
 
+from app_core.auth import UserTokenPayload
+from app_core.users import User, UserService
 from fastapi import APIRouter, Depends
+from fastapi_di import DependsDep
 
 from app.api.dependencies.auth import get_current_user
-from app.api.dependencies.di import DependsDep
 from app.api.exceptions import NotFoundError
 from app.api.users import schemas
-from app.core.auth import UserTokenPayload
-from app.core.users import User, UserService
 
 router = APIRouter()
 
