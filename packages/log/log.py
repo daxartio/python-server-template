@@ -16,9 +16,9 @@ def setup_excepthook(logger: Optional[logging.Logger] = None) -> None:
         exctype, value, traceback_
     ):  # pragma: no cover
         logger.error(
-            'Unhandled exception',
+            "Unhandled exception",
             extra={
-                'error': ''.join(
+                "error": "".join(
                     traceback.format_exception(exctype, value, traceback_)
                 ),
             },
@@ -35,22 +35,22 @@ def make_config(
     static_fields = static_fields or {}
 
     return {
-        'version': 1,
-        'disable_existing_loggers': False,
-        'root': {'handlers': ['default'], 'level': level},
-        'handlers': {
-            'default': {
-                'formatter': 'default',
-                'class': 'logging.StreamHandler',
+        "version": 1,
+        "disable_existing_loggers": False,
+        "root": {"handlers": ["default"], "level": level},
+        "handlers": {
+            "default": {
+                "formatter": "default",
+                "class": "logging.StreamHandler",
                 "stream": "ext://sys.stdout",
             }
         },
-        'formatters': {
-            'default': {
-                'format': '%(message)s',
-                'static_fields': static_fields,
-                'exclude_fields': exclude_fields or [],
-                '()': 'app.logging.Formatter',
+        "formatters": {
+            "default": {
+                "format": "%(message)s",
+                "static_fields": static_fields,
+                "exclude_fields": exclude_fields or [],
+                "()": "log.Formatter",
             }
         },
     }
@@ -58,7 +58,7 @@ def make_config(
 
 class Formatter(jsonlogger.JsonFormatter):
     def __init__(self, *args: Any, **kwargs: Any):
-        self._exclude_fields: list[str] = kwargs.pop('exclude_fields', [])
+        self._exclude_fields: list[str] = kwargs.pop("exclude_fields", [])
         super().__init__(*args, **kwargs)
 
     def add_fields(
@@ -79,9 +79,9 @@ class Formatter(jsonlogger.JsonFormatter):
             log_record["level"] = record.levelname
 
         try:
-            log_record['ctx'] = current_context.copy().__dict__["data"]
+            log_record["ctx"] = current_context.copy().__dict__["data"]
         except Exception:  # pragma: no cover
-            log_record["ctx"] = str(current_context.copy())
+            log_record["ctx_error"] = str(current_context.copy())
 
         for field in self._exclude_fields:
             log_record.pop(field, None)

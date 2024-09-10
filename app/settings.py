@@ -20,7 +20,7 @@ class ServerSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix=f"{ENV_PREFIX}server_")
 
     reload: bool = False
-    host: str = '0.0.0.0'
+    host: str = "0.0.0.0"
     port: int = 8080
     timeout_keep_alive: int = 70
     backlog: int = 2048

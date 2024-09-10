@@ -23,13 +23,13 @@ class RequestLoggerMiddleware(BaseHTTPMiddleware):
             end_time = time.monotonic()
             total_time = end_time - start_time
             logger.info(
-                'Request: %s %s',
+                "Request: %s %s",
                 request.method,
                 request.url,
                 extra={
-                    'latency': round(total_time, 6),
-                    'status': status_code,
-                    'path': path,
+                    "latency": round(total_time, 6),
+                    "status": status_code,
+                    "path": path,
                 },
             )
 

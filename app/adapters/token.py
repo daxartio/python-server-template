@@ -3,7 +3,7 @@ from app_core import auth
 from jwt.exceptions import InvalidTokenError
 from pydantic import BaseModel, ConfigDict
 
-ALGORITHM = 'RS256'
+ALGORITHM = "RS256"
 
 
 class JWTPayload(BaseModel):

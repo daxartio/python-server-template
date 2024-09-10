@@ -8,20 +8,20 @@ from sqlalchemy.pool import NullPool
 from app.db.models import Base
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def database_url() -> str:
-    return os.environ['APP_DATABASE_URL']
+    return os.environ["APP_DATABASE_URL"]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def engine(database_url: str) -> AsyncEngine:
     return create_async_engine(
-        str(database_url.replace('postgresql://', 'postgresql+asyncpg://')),
+        str(database_url.replace("postgresql://", "postgresql+asyncpg://")),
         poolclass=NullPool,
     )
 
 
-@pytest_asyncio.fixture(autouse=True, scope='session')
+@pytest_asyncio.fixture(autouse=True, scope="session")
 async def _create_db(engine: AsyncEngine) -> None:
     async with engine.begin() as session:
         await session.run_sync(Base.metadata.create_all)

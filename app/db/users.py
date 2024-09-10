@@ -11,8 +11,8 @@ from .database import Base
 
 
 class DBUser(Base):
-    __tablename__ = 'users'
-    __mapper_args__ = {'eager_defaults': True}
+    __tablename__ = "users"
+    __mapper_args__ = {"eager_defaults": True}
 
     id: Column[uuid.UUID] = Column(UUID(as_uuid=True), primary_key=True)
     full_name: Column[str] = Column(String, nullable=False)
@@ -20,7 +20,7 @@ class DBUser(Base):
     password_hash: Column[str] = Column(String, nullable=False)
 
     def __repr__(self) -> str:
-        return f'User(id={self.id})'
+        return f"User(id={self.id})"
 
 
 class UserRepository:

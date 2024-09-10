@@ -3,7 +3,7 @@ from typing import Any, Callable, Iterable, Type, TypeVar
 from fastapi import Depends, FastAPI
 from starlette.requests import Request
 
-DepT = TypeVar('DepT')
+DepT = TypeVar("DepT")
 
 
 def inject_deps(app: FastAPI, deps: Iterable[DepT]) -> None:

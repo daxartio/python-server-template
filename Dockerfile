@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE=off
 ENV PYTHONFAULTHANDLER=on
 ENV PYTHONUNBUFFERED=on
 
-RUN pip install poetry==1.7.1 \
+RUN pip install poetry==1.8.3 \
     && poetry config virtualenvs.create true \
     && poetry config virtualenvs.in-project true
 

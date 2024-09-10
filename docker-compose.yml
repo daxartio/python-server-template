@@ -9,6 +9,7 @@ services:
     command: [python, -m, app, server, up]
     volumes:
       - .:/opt/dev
+      - /opt/dev/.venv
     depends_on:
       - postgres
     ports:

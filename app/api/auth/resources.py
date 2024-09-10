@@ -12,7 +12,7 @@ from . import schemas
 router = APIRouter()
 
 
-@router.post('/auth/token', response_model=schemas.Token)
+@router.post("/auth/token", response_model=schemas.Token)
 async def login_for_access_token(
     creds: HTTPBasicCredentials,
     auth_service: Annotated[AuthService, DependsDep(AuthService)],

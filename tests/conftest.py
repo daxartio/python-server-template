@@ -1,1 +1,1 @@
-pytest_plugins = ['tests.database']
+pytest_plugins = ["tests.database"]

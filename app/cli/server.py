@@ -18,7 +18,7 @@ def up() -> None:
     logging.config.dictConfig(
         make_config(
             level=logging_settings.level,
-            exclude_fields=['color_message', 'taskName'],
+            exclude_fields=["color_message", "taskName"],
         )
     )
 
@@ -27,6 +27,6 @@ def up() -> None:
         factory=True,
         log_config=None,
         access_log=False,
-        loop='uvloop',
-        **ServerSettings().model_dump()
+        loop="uvloop",
+        **ServerSettings().model_dump(),
     )

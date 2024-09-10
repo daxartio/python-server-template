@@ -5,7 +5,7 @@ from typing import NamedTuple, Protocol
 
 from .password import Verifier
 
-TOKEN_TYPE = 'Bearer'  # noqa:S105
+TOKEN_TYPE = "Bearer"  # noqa:S105
 
 
 class User(Protocol):

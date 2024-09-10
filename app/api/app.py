@@ -14,8 +14,8 @@ from .users.resources import router as users_router
 
 def create_app() -> FastAPI:
     app = FastAPI(
-        title='Application API',
-        description='API documentation',
+        title="Application API",
+        description="API documentation",
         version="1.0.0",
         lifespan=_lifespan,
     )
@@ -23,8 +23,8 @@ def create_app() -> FastAPI:
     app.add_middleware(RequestLoggerMiddleware)
     app.add_middleware(RequestIdMiddleware)
 
-    app.include_router(_include_api_router(APIRouter()), prefix='/api')
-    app.include_router(_include_tech_router(APIRouter()), prefix='')
+    app.include_router(_include_api_router(APIRouter()), prefix="/api")
+    app.include_router(_include_tech_router(APIRouter()), prefix="")
 
     return app
 
@@ -36,11 +36,11 @@ async def _lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 
 def _include_api_router(router: APIRouter) -> APIRouter:
-    router.include_router(auth_router, tags=['Auth'])
-    router.include_router(users_router, tags=['Users'])
+    router.include_router(auth_router, tags=["Auth"])
+    router.include_router(users_router, tags=["Users"])
     return router
 
 
 def _include_tech_router(router: APIRouter) -> APIRouter:
-    router.include_router(probes_router, tags=['Probes'])
+    router.include_router(probes_router, tags=["Probes"])
     return router

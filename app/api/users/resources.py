@@ -13,7 +13,7 @@ from app.api.users import schemas
 router = APIRouter()
 
 
-@router.get('/users/me', response_model=schemas.User)
+@router.get("/users/me", response_model=schemas.User)
 async def get_my_user(
     current_user: Annotated[UserTokenPayload, Depends(get_current_user)],
     user_service: Annotated[UserService, DependsDep(UserService)],
@@ -26,7 +26,7 @@ async def get_my_user(
 
 
 @router.get(
-    '/users/{user_id}',
+    "/users/{user_id}",
     response_model=schemas.User,
     dependencies=[Depends(get_current_user)],
 )
