@@ -1,5 +1,3 @@
-version: "3.3"
-
 services:
   app:
     build:
@@ -20,7 +18,7 @@ services:
       APP_AUTH_PUBLIC_KEY: "-----BEGIN PUBLIC KEY-----\nMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAys0zwvkDqWcc7/6loXJm\nGi+W8yx1btVxgYKx04hH2VCrXFbAh4eKeTzeopyzIq7map2NCN/nuvmzUnfMQtO3\nl+comGzRKO04z2vcAXdAVkKZexBKoSeLDfS3VxcS6xQEmj9q/9qT5C1KNzyET/fi\nsxn3YivU1S/v7HsaGNxf5cr3CgzsYVljc5+9ucBrX8oTCCyFuTf6FD14pcL7riXt\niUKOEnJhAMAomqLcMEStzRLpqYWWQ4ivbd9J7NNY574Cj1sjFgLTdZPyyfORx3nT\npHh7EY05kst4o1URW+K04lr6EEZ0kxQlpqHVHzQG7RroF1qhRkdGMv/qt5SToKnf\nv1VMiOBMHooQBiit0o/PoImSz6LFz14q+Q1jSSWMJCc+WV9ogN1UHlLvZUw/gTZz\nxQO+ttaoEfKPNAR1utZaYrZ3bnAMUs748PEs/6eT9w5oNKgZ3HjlUzO9pvbBsOte\n/genOANQm9XyuBGFR4eXzHmxx6EvZg+WdcYv95BRsQ1T/tmbMddreClCZ/PuTd/x\nyRR0ZKHAela8hHGn8R0WieUEewGHR5xhHq1SHtStXEcuLCRUw15aZNN7sJNn7y5m\n4g60WDLi/ZwGG0fzPF+7g843fUkk1iBpgqS4bYbBk50S1+lmUE/+XbEIjZIK79Pi\nKQhIxQZFN1vy2T8/1oiy3kkCAwEAAQ==\n-----END PUBLIC KEY-----"
 
   postgres:
-    image: postgres:12-alpine
+    image: postgres:17-alpine
     environment:
       POSTGRES_PASSWORD: 'password'
       POSTGRES_USER: 'db'

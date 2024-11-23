@@ -1,19 +1,23 @@
-FROM python:3.12-slim-bullseye AS base
+FROM python:3.12-slim-bookworm AS base
 
 WORKDIR /opt
 
-ENV PYTHONDONTWRITEBYTECODE=off
-ENV PYTHONFAULTHANDLER=on
-ENV PYTHONUNBUFFERED=on
+ENV UV_COMPILE_BYTECODE=1 \
+    UV_LINK_MODE=copy \
+    PYTHONDONTWRITEBYTECODE=off \
+    PYTHONFAULTHANDLER=on \
+    PYTHONUNBUFFERED=on
 
-RUN pip install poetry==1.8.3 \
-    && poetry config virtualenvs.create true \
-    && poetry config virtualenvs.in-project true
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-COPY pyproject.toml poetry.lock ./
+COPY pyproject.toml uv.lock ./
 COPY packages packages
 
-RUN poetry install --only main --no-interaction --no-ansi --no-root --no-cache
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=packages,target=packages \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
 
 FROM base AS dev
 
@@ -21,10 +25,10 @@ WORKDIR /opt/dev
 
 ENV PATH="/opt/.venv/bin:$PATH"
 
-RUN poetry install --no-interaction --no-ansi --no-root --no-cache \
-    && poetry config virtualenvs.create false
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --group migration --frozen --no-install-project
 
-FROM python:3.12-slim-bullseye AS prod
+FROM python:3.12-slim-bookworm AS prod
 
 WORKDIR /opt
 
@@ -32,5 +36,6 @@ ENV PATH="/opt/.venv/bin:$PATH"
 
 COPY --from=base /opt/.venv .venv
 COPY app app
+COPY packages packages
 
 CMD ["python", "-m", "app", "server", "up"]

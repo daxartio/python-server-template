@@ -1,18 +1,17 @@
-[tool.poetry]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
 name = "log"
 version = "1.0.0"
+requires-python = ">=3.12"
 description = ""
-authors = ["Your Name <email@gmail.com>"]
-license = "MIT"
+authors = [ { name = "Your Name" }, { email = "email@example.com" } ]
 keywords = []
+dependencies = [
+    "kontext >= 1.0.0",
+    "python-json-logger >= 2.0.7",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-kontext = "^1.0.0"
-python-json-logger = "^2.0.7"
-
-[tool.poetry.group.dev.dependencies]
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[project.optional-dependencies]

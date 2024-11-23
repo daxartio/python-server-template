@@ -1,52 +1,60 @@
-[tool.poetry]
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
 name = "app"
 version = "1.0.0"
+requires-python = ">=3.12"
 description = ""
-authors = ["Your Name <email@gmail.com>"]
-license = "MIT"
-readme = "README.md"
+authors = [ { name = "Your Name" }, { email = "email@example.com" } ]
 keywords = []
+dependencies = [
+    "app-core",
+    "fastapi-di",
+    "fastapi-middlewares",
+    "log",
+    "asyncpg>=0.29.0,<0.30.0",
+    "casers[pydantic]>=0.10.0,<0.11.0",
+    "fastapi>=0.110.0,<0.111.0",
+    "kontext>=1.3.0,<1.4.0",
+    "orjson>=3.10.7,<3.11.0",
+    "parol>=1.1.0,<1.2.0",
+    "pydantic>=2,<3",
+    "pydantic-settings>=2.0.1,<2.1.0",
+    "pyjwt[crypto]>=2.9.0,<2.10.0",
+    "SQLAlchemy[asyncio]>=2.0.34,<2.1.0",
+    "typer>=0.12.5,<0.13.0",
+    "uvicorn[standard]>=0.30.6,<0.31.0"
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
+[project.optional-dependencies]
 
-app-core = { path = "packages/app-core" }
-fastapi-di = { path = "packages/fastapi-di" }
-fastapi-middlewares = { path = "packages/fastapi-middlewares" }
-log = { path = "packages/log" }
+[dependency-groups]
+dev = [
+    "httpx >= 0.27.2",
+    "mypy >= 1",
+    "poethepoet >= 0.28",
+    "pytest >= 8.3.2",
+    "pytest-asyncio >= 0.24",
+    "pytest-cov >= 5.0.0",
+    "pytest-deadfixtures >= 2.2.1",
+    "pytest-mock >= 3.14.0",
+    "ruff >= 0.8",
+]
+migration = [
+    "alembic >= 1.13.2",
+    "psycopg2-binary >= 2.9.9",
+]
 
-asyncpg = "^0.29.0"
-casers = { version = "^0.10.0", extras = ["pydantic"] }
-fastapi = "^0.110.0"
-kontext = "^1.3.0"
-orjson = "^3.10.7"
-parol = "^1.1.0"
-pydantic = "^2"
-pydantic-settings = "^2.0.1"
-pyjwt = { version = "^2.9.0", extras = ["crypto"] }
-SQLAlchemy = { version = "^2.0.34", extras = ["asyncio"] }
-typer = "^0.12.5"
-uvicorn = { version = "^0.30.6", extras = ["standard"] }
+[tool.uv.sources]
+app-core = { workspace = true }
+fastapi-di = { workspace = true }
+fastapi-middlewares = { workspace = true }
+log = { workspace = true }
 
-[tool.poetry.group.dev.dependencies]
-black = ">=24"
-httpx = "^0.27.2"
-mypy = "^1.11.2"
-poethepoet = "^0.28"
-pytest = "^8"
-pytest-asyncio = "*"
-pytest-cov = "*"
-pytest-deadfixtures = "*"
-pytest-mock = "*"
-ruff = "^0.6.4"
-
-[tool.poetry.group.migration.dependencies]
-alembic = "^1.13.2"
-psycopg2-binary = "^2.9.9"
-
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.uv.workspace]
+members = ["packages/*"]
 
 [tool.poe.env]
 CODE = "tests app packages"
@@ -80,7 +88,6 @@ help = "Check code"
 sequence = [
     {cmd = "mypy ${CODE}"},
     {cmd = "ruff check ${CODE}"},
-    {cmd = "black --check ${CODE}"},
     {cmd = "pytest --dead-fixtures --dup-fixtures"},
 ]
 
@@ -88,7 +95,6 @@ sequence = [
 help = "Formating code"
 sequence = [
 	{cmd = "ruff format ${CODE}"},
-	{cmd = "black ${CODE}"},
 ]
 
 [tool.poe.tasks.migrate]
@@ -117,9 +123,6 @@ ignore_missing_imports = true
 no_implicit_optional = true
 plugins = ["pydantic.mypy"]
 
-[tool.isort]
-profile = "black"
-
 [tool.coverage.run]
 omit = ["tests/*", "**/__main__.py", "**/.venv/*", "**/site-packages/*"]
 branch = true
@@ -128,9 +131,6 @@ branch = true
 show_missing = true
 skip_covered = true
 fail_under = 100
-
-[tool.black]
-skip-string-normalization = true
 
 [tool.pytest.ini_options]
 asyncio_mode = "strict"

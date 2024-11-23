@@ -10,6 +10,7 @@ This is a Python-based web application that uses Docker for containerization, Al
 - Access token (RS256)
 - Clean Architecture
 - Json logging
+- Packages: uv, ruff, mypy, poe, pytest
 
 ## Structure
 
